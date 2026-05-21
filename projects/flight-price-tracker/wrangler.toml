@@ -1,0 +1,26 @@
+name = "flight-price-tracker"
+main = "src/index.ts"
+compatibility_date = "2025-05-01"
+
+# Cron every 6 hours (UTC). Cloudflare cron is UTC only.
+# 00:00, 06:00, 12:00, 18:00 UTC  =  07:00, 13:00, 19:00, 01:00 WIB.
+[triggers]
+crons = ["0 */6 * * *"]
+
+# Replace `id` after running `npm run kv:create` (or `wrangler kv namespace create PRICE_STATE`).
+[[kv_namespaces]]
+binding = "PRICE_STATE"
+id = "REPLACE_WITH_KV_NAMESPACE_ID"
+
+[vars]
+# JSON array. Each route: { origin, destination, daysAhead?, departureDate?, returnDate?, adults? }
+# daysAhead (default 30) is used when departureDate is not pinned, so the worker always
+# searches "today + N days" and you don't have to edit config when dates pass.
+ROUTES_JSON = "[{\"origin\":\"CGK\",\"destination\":\"DPS\",\"daysAhead\":30},{\"origin\":\"CGK\",\"destination\":\"SIN\",\"daysAhead\":30},{\"origin\":\"CGK\",\"destination\":\"KUL\",\"daysAhead\":45}]"
+CURRENCY = "idr"
+# When set, only include routes whose best offer is at or below this absolute price.
+# Leave empty to always include every route.
+MAX_PRICE_FILTER = ""
+# If "true", only send a Telegram message when at least one route price dropped vs the
+# previous snapshot. Default ("false") sends a full report every cron tick.
+ONLY_NOTIFY_ON_DROP = "false"

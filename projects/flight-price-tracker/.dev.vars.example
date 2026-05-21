@@ -1,0 +1,15 @@
+# Copy to `.dev.vars` for local `wrangler dev`. Never commit the real file.
+# In production, set the same names via `wrangler secret put <NAME>`.
+
+# Travelpayouts (Aviasales) — sign up at https://www.travelpayouts.com/ and grab the API token
+# from your profile. Free tier returns real, current prices in IDR.
+TRAVELPAYOUTS_TOKEN=your_travelpayouts_token
+
+# Telegram bot from @BotFather, plus the chat id you want messages sent to.
+# Tip: send a message to your bot then visit https://api.telegram.org/bot<token>/getUpdates
+# to find your chat id (positive for user, negative for group/channel).
+TELEGRAM_BOT_TOKEN=123456:ABCDEF...
+TELEGRAM_CHAT_ID=123456789
+
+# Optional: protects the manual /trigger HTTP endpoint. If unset, /trigger is disabled.
+TRIGGER_SECRET=
