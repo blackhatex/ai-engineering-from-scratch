@@ -124,7 +124,7 @@ export function buildMessage(sections: RouteSection[]): string {
 
     lines.push(`  💰 <b>${escapeHtml(priceStr)}</b>${diff}`);
     lines.push(`  🛫 ${escapeHtml(meta)} · berangkat ${escapeHtml(shortDepartureLabel(s.best.departureAt))}`);
-    if (s.best.deepLink) lines.push(`  🔗 <a href="${s.best.deepLink}">lihat di Aviasales</a>`);
+    if (s.best.deepLink) lines.push(`  🔗 <a href="${escapeHtml(s.best.deepLink)}">lihat di Aviasales</a>`);
     lines.push("");
   }
   return lines.join("\n").replace(/\n{3,}/g, "\n\n").trim();

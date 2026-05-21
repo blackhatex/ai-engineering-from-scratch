@@ -29,11 +29,11 @@ export function parseRoutes(json: string): Route[] {
     const adults = typeof obj.adults === "number" ? obj.adults : 1;
     const departureDate = typeof obj.departureDate === "string" ? obj.departureDate : undefined;
     const returnDate = typeof obj.returnDate === "string" ? obj.returnDate : undefined;
-    if (departureDate && !DATE.test(departureDate)) {
-      throw new Error(`ROUTES_JSON[${i}].departureDate must be YYYY-MM-DD`);
+    if (departureDate && !isCalendarDate(departureDate)) {
+      throw new Error(`ROUTES_JSON[${i}].departureDate must be a real YYYY-MM-DD date`);
     }
-    if (returnDate && !DATE.test(returnDate)) {
-      throw new Error(`ROUTES_JSON[${i}].returnDate must be YYYY-MM-DD`);
+    if (returnDate && !isCalendarDate(returnDate)) {
+      throw new Error(`ROUTES_JSON[${i}].returnDate must be a real YYYY-MM-DD date`);
     }
 
     out.push({ origin, destination, daysAhead, adults, departureDate, returnDate });
@@ -49,4 +49,14 @@ export function resolveDepartureDate(route: Route, today: Date = new Date()): st
   const d = new Date(Date.UTC(today.getUTCFullYear(), today.getUTCMonth(), today.getUTCDate()));
   d.setUTCDate(d.getUTCDate() + days);
   return d.toISOString().slice(0, 10);
+}
+
+function isCalendarDate(s: string): boolean {
+  if (!DATE.test(s)) return false;
+  const [y, m, d] = s.split("-").map(Number);
+  if (m < 1 || m > 12 || d < 1 || d > 31) return false;
+  const dt = new Date(Date.UTC(y, m - 1, d));
+  return (
+    dt.getUTCFullYear() === y && dt.getUTCMonth() === m - 1 && dt.getUTCDate() === d
+  );
 }

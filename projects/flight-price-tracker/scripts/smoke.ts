@@ -87,7 +87,7 @@ const sections: RouteSection[] = [
       flightNumber: "QZ584",
       transfers: 0,
       durationMinutes: 125,
-      deepLink: "https://example.com/x",
+      deepLink: "https://example.com/x?a=1&b=\"oops\"",
     },
     previous: {
       price: 1314000,
@@ -119,5 +119,7 @@ assert(msg.includes("TURUN"), "drop diff present");
 assert(msg.includes("rate limited"), "error surfaces");
 assert(msg.includes("tidak ada penawaran"), "no-offer fallback");
 assert(msg.includes("(PP)"), "round-trip label");
+assert(!msg.includes('"oops"'), "deep link is HTML-escaped (no raw quotes)");
+assert(msg.includes("&quot;oops&quot;"), "deep link quotes escaped to entities");
 console.log("\n----- sample message -----\n" + msg + "\n--------------------------");
 console.log("\nALL OK");
