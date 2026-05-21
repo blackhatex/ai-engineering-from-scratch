@@ -1,0 +1,20 @@
+{
+  "name": "flight-price-tracker",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Cloudflare Worker that checks flight ticket prices every 6 hours and reports to a Telegram bot.",
+  "type": "module",
+  "scripts": {
+    "dev": "wrangler dev",
+    "deploy": "wrangler deploy",
+    "typecheck": "tsc --noEmit",
+    "smoke": "node --experimental-strip-types --no-warnings scripts/smoke.ts",
+    "tail": "wrangler tail",
+    "kv:create": "wrangler kv namespace create PRICE_STATE"
+  },
+  "devDependencies": {
+    "@cloudflare/workers-types": "^4.20250515.0",
+    "typescript": "^5.6.3",
+    "wrangler": "^3.95.0"
+  }
+}
